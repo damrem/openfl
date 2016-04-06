@@ -582,8 +582,8 @@ import js.html.CanvasRenderingContext2D;
 						tileWidth = tile.width * scale;
 						tileHeight = tile.height * scale;
 						
-						x -= tilePoint.x;
-						y -= tilePoint.y;
+						x -= tilePoint.x * scale;
+						y -= tilePoint.y * scale;
 						
 						if (rotation != 0) {
 							

@@ -15,13 +15,11 @@ class Graphics_drawTilesTest
 	var context:Sprite;
 	var holder:Shape;
 	var img:BitmapData;
-	var ts:Tilesheet;
 	
 	@BeforeClass
 	public function beforeClass():Void
 	{
 		img = new BitmapData(32, 32);
-		ts = new Tilesheet(img);
 	}
 	
 	@AfterClass
@@ -29,8 +27,6 @@ class Graphics_drawTilesTest
 	{
 		img.dispose();
 		img = null;
-		
-		ts = null;
 	}
 	
 	@Before
@@ -54,6 +50,7 @@ class Graphics_drawTilesTest
 	@Test 
 	public function noFlag()
 	{
+		var ts = new Tilesheet(img);
 		ts.addTileRect(new Rectangle(0, 0, 32, 32));
 		holder.graphics.drawTiles(ts, [0, 0, 0]);
 		
@@ -68,8 +65,24 @@ class Graphics_drawTilesTest
 	@Test 
 	public function noFlagWithTileCenter()
 	{
+		var ts = new Tilesheet(img);
 		ts.addTileRect(new Rectangle(0, 0, 32, 32), new Point(16,16));
 		holder.graphics.drawTiles(ts, [0, 0, 0]);
+		
+		var b = holder.getBounds(context);
+		trace(b);
+		Assert.areEqual(-16, b.x);
+		Assert.areEqual(-16, b.y);
+		Assert.areEqual(32, b.width);
+		Assert.areEqual(32, b.height);
+	}
+	
+	@Test 
+	public function useAlpha()
+	{
+		var ts = new Tilesheet(img);
+		ts.addTileRect(new Rectangle(0, 0, 32, 32));
+		holder.graphics.drawTiles(ts, [0, 0, 0, 0.5], false, Tilesheet.TILE_ALPHA);
 		
 		var b = holder.getBounds(context);
 		trace(b);
@@ -79,8 +92,54 @@ class Graphics_drawTilesTest
 		Assert.areEqual(32, b.height);
 	}
 	
+	@Test 
+	public function useAlphaWithTileCenter()
+	{
+		var ts = new Tilesheet(img);
+		ts.addTileRect(new Rectangle(0, 0, 32, 32), new Point(16,16));
+		holder.graphics.drawTiles(ts, [0, 0, 0, 0.5], false, Tilesheet.TILE_ALPHA);
+		
+		var b = holder.getBounds(context);
+		trace(b);
+		Assert.areEqual(-16, b.x);
+		Assert.areEqual(-16, b.y);
+		Assert.areEqual(32, b.width);
+		Assert.areEqual(32, b.height);
+	}
+	
+	@Test 
+	public function useScale()
+	{
+		var ts = new Tilesheet(img);
+		ts.addTileRect(new Rectangle(0, 0, 32, 32));
+		holder.graphics.drawTiles(ts, [0, 0, 0, 2], false, Tilesheet.TILE_SCALE);
+		
+		var b = holder.getBounds(context);
+		trace(b);
+		Assert.areEqual(0, b.x);
+		Assert.areEqual(0, b.y);
+		Assert.areEqual(64, b.width);
+		Assert.areEqual(64, b.height);
+	}
+	
+	@Test 
+	public function useScaleWithTileCenter()
+	{
+		var ts = new Tilesheet(img);
+		ts.addTileRect(new Rectangle(0, 0, 32, 32), new Point(16,16));
+		holder.graphics.drawTiles(ts, [0, 0, 0, 2], false, Tilesheet.TILE_SCALE);
+		
+		var b = holder.getBounds(context);
+		trace(b);
+		Assert.areEqual(-32, b.x);
+		Assert.areEqual(-32, b.y);
+		Assert.areEqual(64, b.width);
+		Assert.areEqual(64, b.height);
+	}
+	
 	@Test public function useRect()
 	{
+		var ts = new Tilesheet(img);
 		holder.graphics.drawTiles(ts, [0, 0, 0, 0, 32, 32], false, Tilesheet.TILE_RECT);
 		
 		var b = holder.getBounds(holder);
@@ -90,6 +149,8 @@ class Graphics_drawTilesTest
 		Assert.areEqual(32, b.width);
 		Assert.areEqual(32, b.height);
 	}
+	
+	
 	
 	
 	
