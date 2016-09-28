@@ -1,6 +1,7 @@
 package openfl.display;
 
 
+import openfl.geom.ColorTransform;
 import openfl.geom.Matrix;
 
 
@@ -24,6 +25,10 @@ class Tile {
 	private var __transform:Array<Float>;
 	private var __transformDirty:Bool;
 	
+	/**
+	 * Should this make source dirty when set?
+	 */
+	public var colorTransform:ColorTransform;
 	
 	public function new (id:Int = 0, x:Float = 0, y:Float = 0, scaleX:Float = 1, scaleY:Float = 1, rotation:Float = 0) {
 		
