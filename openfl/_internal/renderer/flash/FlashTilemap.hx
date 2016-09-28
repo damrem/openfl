@@ -69,6 +69,12 @@ class FlashTilemap {
 				sourceRect.width = tileData.width;
 				sourceRect.height = tileData.height;
 				
+				if (tile.colorTransform != null)
+				{
+					sourceBitmapData = sourceBitmapData.clone();
+					sourceBitmapData.colorTransform(sourceRect, tile.colorTransform);
+				}
+				
 				if (alpha == 1 && matrix.a == 1 && matrix.b == 0 && matrix.c == 0 && matrix.d == 1) {
 					
 					destPoint.x = tile.x;
