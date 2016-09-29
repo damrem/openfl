@@ -60,6 +60,7 @@ class FlashTilemap {
 				if (tileData == null) continue;
 				
 				sourceBitmapData = tileset.bitmapData;
+				
 				matrix = tile.matrix;
 				
 				if (sourceBitmapData == null || alpha == 0) continue;
@@ -68,6 +69,12 @@ class FlashTilemap {
 				sourceRect.y = tileData.y;
 				sourceRect.width = tileData.width;
 				sourceRect.height = tileData.height;
+				
+				if (tile.transformBitmapDataCallback != null)
+				{
+					sourceBitmapData = sourceBitmapData.clone();
+					sourceBitmapData = tile.transformBitmapDataCallback(sourceBitmapData, sourceRect);
+				}
 				
 				if (alpha == 1 && matrix.a == 1 && matrix.b == 0 && matrix.c == 0 && matrix.d == 1) {
 					

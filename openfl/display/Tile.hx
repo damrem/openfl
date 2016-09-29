@@ -2,6 +2,7 @@ package openfl.display;
 
 
 import openfl.geom.Matrix;
+import openfl.geom.Rectangle;
 
 
 class Tile {
@@ -24,6 +25,8 @@ class Tile {
 	private var __transform:Array<Float>;
 	private var __transformDirty:Bool;
 	
+	public var bitmapData:BitmapData;
+	public var transformBitmapDataCallback:BitmapData->Rectangle->BitmapData;
 	
 	public function new (id:Int = 0, x:Float = 0, y:Float = 0, scaleX:Float = 1, scaleY:Float = 1, rotation:Float = 0) {
 		
