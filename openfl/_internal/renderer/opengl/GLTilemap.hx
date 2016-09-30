@@ -25,6 +25,10 @@ class GLTilemap {
 	
 	public static function render (tilemap:Tilemap, renderSession:RenderSession):Void {
 		
+		#if debug
+		trace("render");
+		#end
+		
 		if (!tilemap.__renderable || tilemap.__tiles.length == 0 || tilemap.__worldAlpha <= 0) return;
 		
 		var gl = renderSession.gl;
@@ -225,6 +229,8 @@ class GLTilemap {
 		var cacheBitmapData = null;
 		var lastIndex = 0;
 		
+		var sourceRect = new Rectangle();
+		
 		for (i in 0...(drawCount + 1)) {
 			
 			if (__skippedTiles.get (i)) {
@@ -238,7 +244,12 @@ class GLTilemap {
 			
 			if (tile.transformBitmapDataCallback != null)
 			{
-				sourceBitmapData = tile.transformBitmapDataCallback(tileset.bitmapData.clone(), tileset.bitmapData.rect);
+				var tileData = tileset.__data[tile.id];
+				sourceRect.x = tileData.x;
+				sourceRect.x = tileData.y;
+				sourceRect.width = tileData.width;
+				sourceRect.height = tileData.height;
+				sourceBitmapData = tile.transformBitmapDataCallback(tileset.bitmapData.clone(), sourceRect);
 			}
 			else
 			{

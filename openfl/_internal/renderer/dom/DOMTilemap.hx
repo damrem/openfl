@@ -18,6 +18,8 @@ class DOMTilemap {
 	
 	public static inline function render (tilemap:Tilemap, renderSession:RenderSession):Void {
 		
+		trace("dom");
+		
 		#if (js && html5)
 		if (tilemap.stage != null && tilemap.__worldVisible && tilemap.__renderable && tilemap.__tiles.length > 0) {
 			

@@ -72,8 +72,7 @@ class FlashTilemap {
 				
 				if (tile.transformBitmapDataCallback != null)
 				{
-					sourceBitmapData = sourceBitmapData.clone();
-					sourceBitmapData = tile.transformBitmapDataCallback(sourceBitmapData, sourceRect);
+					sourceBitmapData = tile.transformBitmapDataCallback(sourceBitmapData.clone(), sourceRect);
 				}
 				
 				if (alpha == 1 && matrix.a == 1 && matrix.b == 0 && matrix.c == 0 && matrix.d == 1) {

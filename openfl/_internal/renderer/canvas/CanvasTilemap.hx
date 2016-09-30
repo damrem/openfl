@@ -20,6 +20,10 @@ class CanvasTilemap {
 	
 	public static inline function render (tilemap:Tilemap, renderSession:RenderSession):Void {
 		
+		#if debug
+		trace("render");
+		#end
+		
 		#if (js && html5)
 		
 		if (!tilemap.__renderable || tilemap.__tiles.length == 0 || tilemap.__worldAlpha <= 0) return;
@@ -73,6 +77,11 @@ class CanvasTilemap {
 			if (tileData == null) continue;
 			
 			bitmapData = tileset.bitmapData;
+			
+			if (tile.transformBitmapDataCallback != null)
+			{
+				bitmapData = tile.transformBitmapDataCallback(bitmapData.clone(), new Rectangle(tileData.x, tileData.y, tileData.width, tileData.height));
+			}
 			
 			if (bitmapData == null) continue;
 			
