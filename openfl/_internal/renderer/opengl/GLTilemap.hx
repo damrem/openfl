@@ -49,6 +49,7 @@ class GLTilemap {
 		var tiles, count, bufferData, buffer, startIndex, offset, uvs, uv;
 		var tileWidth = 0, tileHeight = 0;
 		var tile, alpha, visible, tileset, tileData, tileMatrix, x, y, x2, y2, x3, y3, x4, y4;
+		var sourceBitmapData;
 		
 		tiles = tilemap.__tiles;
 		count = tiles.length;
@@ -235,7 +236,16 @@ class GLTilemap {
 			tile = tiles[i];
 			tileset = (tile.tileset != null) ? tile.tileset : defaultTileset;
 			
-			if (tileset.bitmapData != cacheBitmapData) {
+			if (tile.transformBitmapDataCallback != null)
+			{
+				sourceBitmapData = tile.transformBitmapDataCallback(tileset.bitmapData.clone(), tileset.bitmapData.rect);
+			}
+			else
+			{
+				sourceBitmapData = tileset.bitmapData;
+			}
+			
+			if (sourceBitmapData != cacheBitmapData) {
 				
 				if (cacheBitmapData != null) {
 					
@@ -257,14 +267,14 @@ class GLTilemap {
 					
 				}
 				
-				cacheBitmapData = tileset.bitmapData;
+				cacheBitmapData = sourceBitmapData;
 				lastIndex = i;
 				
 			}
 			
-			if (i == drawCount && tileset.bitmapData != null) {
+			if (i == drawCount && sourceBitmapData != null) {
 				
-				gl.bindTexture (gl.TEXTURE_2D, tileset.bitmapData.getTexture (gl));
+				gl.bindTexture (gl.TEXTURE_2D, sourceBitmapData.getTexture (gl));
 				
 				if (smoothing) {
 					
